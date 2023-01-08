@@ -32,8 +32,10 @@ private:
 	static const int max_student_num = 100;
 	//成绩表的开头
 	string head;
+	//栏目数
+	static const int COLUMN = 8;
 	//栏目
-	string columns[8];
+	string columns[COLUMN];
 
 	bool has_same_id;
 	//有无对数据进行修改

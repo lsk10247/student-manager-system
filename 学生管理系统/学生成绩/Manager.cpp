@@ -60,7 +60,7 @@ int Manager::insert()
 int Manager::brouse()
 {
 	cout << head << endl;
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < COLUMN; i++) {
 		cout<<setw(15)<<setfill(' ') << setiosflags(ios::left) << columns[i];
 	}
 	cout << "最终成绩";
@@ -316,7 +316,7 @@ int Manager::storage()
 	out << "授课教师：     " << info.class_teacher << endl;
 	out << "选课人数：     " << info.class_students << endl;
 	out << head << endl;
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < COLUMN; i++) {
 		out << setprecision(3) << setiosflags(ios::left) << setw(15) << setfill(' ');
 		out << columns[i] << "      ";
 	}
@@ -366,7 +366,7 @@ int Manager::analysize()
 	//对学生进行排名
 	rank(final_score, studentRank);
 	cout << head << endl;
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < COLUMN; i++) {
 		cout << columns[i] << setw(8) << "    ";
 	}
 	cout << "最终成绩";
@@ -427,7 +427,7 @@ int Manager::save()
 	out << "70~79人数：" << getFractionalSegment(final_score, 70, 79) << endl;
 	out << "80~89人数：" << getFractionalSegment(final_score, 80, 89) << endl;
 	out << "90~100人数：" << getFractionalSegment(final_score, 90, 100) << endl;
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < COLUMN; i++) {
 		out << setprecision(3) << setiosflags(ios::left) << setw(15) << setfill(' ');
 		out << columns[i] << "      ";
 	}
@@ -492,7 +492,7 @@ bool Manager::readInfo() {
 
 bool Manager::readStudentInfo() {
 	in >> head;
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < COLUMN; i++) {
 		in >> columns[i];
 	}
 	//测试用的
