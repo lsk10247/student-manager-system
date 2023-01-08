@@ -1,0 +1,100 @@
+﻿// 学生成绩.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
+//
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include "Student.h"
+#include "Manager.h"
+using namespace std;
+
+int input;
+//若未读入数据。则无法进行其他操作
+bool inisicalized;
+
+void getNum();
+
+int main()
+{
+    Manager* manager = new Manager();
+
+
+    cout << "————课程成绩管理与分析系统————"<<endl;
+    cout << "1.读入课程成绩" << endl;
+    cout << "2.浏览学生成绩" << endl;
+    cout << "3.查询学生成绩" << endl;
+    cout << "4.修改学生成绩" << endl;
+    cout << "5.补录学生成绩" << endl;
+    cout << "6.删除学生成绩" << endl;
+    cout << "7.保存修改成绩" << endl;
+    cout << "8.统计课程成绩" << endl;
+    cout << "9.保存统计数据" << endl;
+    cout << "0.退出操作系统" << endl;
+    
+    while (true) {
+        getNum();
+        switch (input)
+        {
+        case 1:
+            inisicalized = true;
+            manager->insert();
+            break;
+        case 2:
+            manager->brouse();
+            break;
+        case 3:
+            manager->search();
+            break;
+        case 4:
+            manager->change();
+            break;
+        case 5:
+            manager->append();
+            break;
+        case 6:
+            manager->remove();
+            break;
+        case 7:
+            manager->storage();
+            break;
+        case 8:
+            manager->analize();
+            break;
+        case 9:
+            manager->save();
+            break;
+        case 0:
+            exit(0);
+            break;
+        default:
+            cout << "请输入0到9以内的数字。" << endl;
+            break;
+        }
+    }
+
+
+}
+
+void getNum() {
+    cin.clear();
+    cin >> input;
+    if (cin.fail()) {
+        cout << "请输入数字！！！" << endl;
+        getNum();
+    }
+    if ((!inisicalized) && (input != 1)&&(input!=0)) {
+        cout << "请先读入数据！" << endl;
+        getNum();
+    }
+}
+
+// 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
+// 调试程序: F5 或调试 >“开始调试”菜单
+
+// 入门使用技巧: 
+//   1. 使用解决方案资源管理器窗口添加/管理文件
+//   2. 使用团队资源管理器窗口连接到源代码管理
+//   3. 使用输出窗口查看生成输出和其他消息
+//   4. 使用错误列表窗口查看错误
+//   5. 转到“项目”>“添加新项”以创建新的代码文件，或转到“项目”>“添加现有项”以将现有代码文件添加到项目
+//   6. 将来，若要再次打开此项目，请转到“文件”>“打开”>“项目”并选择 .sln 文件
