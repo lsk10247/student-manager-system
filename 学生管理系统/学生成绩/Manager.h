@@ -35,6 +35,10 @@ private:
 	string columns[8];
 
 	bool has_same_id;
+	//有无对数据进行修改
+	bool changed;
+	//是否进行过分析
+	bool analysized;
 
 	int id[max_student_num];
 	string name[max_student_num];
@@ -65,12 +69,14 @@ private:
 	bool readInfo();
 	bool readStudentInfo();
 
-	int getinput();
+	int getinput(int min,int max);
+	float getinput(float min, float max);
 	string getstrinput();
 	bool findError();
 	void clearAtIdx(int idx);
 	void clearResult();
 	void append(int idx);
+	void getId(int*);
 	void showInfo(int idx);
 
 	template<typename T>

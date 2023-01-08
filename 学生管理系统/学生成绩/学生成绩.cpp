@@ -12,7 +12,7 @@ int input;
 //若未读入数据。则无法进行其他操作
 bool inisicalized;
 
-void getNum();
+void getNum(int,int);
 
 int main()
 {
@@ -32,7 +32,7 @@ int main()
     cout << "0.退出操作系统" << endl;
     
     while (true) {
-        getNum();
+        getNum(0,9);
         switch (input)
         {
         case 1:
@@ -75,16 +75,21 @@ int main()
 
 }
 
-void getNum() {
-    cin.clear();
-    cin >> input;
-    if (cin.fail()) {
-        cout << "请输入数字！！！" << endl;
-        getNum();
+void getNum(int min,int max) {
+    while (!(cin >> input) || (input<min || input>max) && !(max == 0))
+    {
+        while (getchar() != '\n');
+        cin.clear();
+        if (max != 0) {
+            cout << "只能输入" << min << "~" << max << "之间的数，请重新输入！" << endl;
+        }
+        else {
+            cout << "请输入数字！" << endl;
+        }
     }
     if ((!inisicalized) && (input != 1)&&(input!=0)) {
         cout << "请先读入数据！" << endl;
-        getNum();
+        getNum(0,9);
     }
 }
 
