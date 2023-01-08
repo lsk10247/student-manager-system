@@ -17,7 +17,7 @@ public:
 	int append();
 	int remove();
 	int storage();
-	int analize();
+	int analysize();
 	int save();
 
 private:

@@ -19,11 +19,13 @@ int Manager::insert()
 {
 	//手动输入时使用
 	string tmp;
-
-	cout << "————开始读入学生成绩————" << endl;
-	cout << "0:默认从StudentScore.dat读入。" << endl;
-	cout << "1:从自定义路径读入。" << endl;
-	cout << "2:手动输入。" << endl;
+	cout << "************开始读入学生成绩************" << endl;
+	cout << "*                                      *" << endl;
+	cout << "*    0:默认从StudentScore.dat读入。    *" << endl;
+	cout << "*    1:从自定义路径读入。              *" << endl;
+	cout << "*    2:手动输入。                      *" << endl;
+	cout << "*                                      *" << endl;
+	cout << "****************************************" << endl;
 	int input = getinput(0,2);
 	switch (input) {
 	case 0:
@@ -91,8 +93,18 @@ int Manager::brouse()
 
 int Manager::search()
 {
-	cout << "请输入查询方式：" << endl;
-	cout << "1:按学号查询\n2:按姓名查询\n3:按性别查询\n4:按班级名称查询\n5:按平时成绩（作业）查询\n6:按平时成绩（实验）查询\n7:按平时成绩（报告）查询\n8:按考试成绩查询\n";
+	cout << "*************请输入查询方式*************" << endl;
+	cout << "*                                      *" << endl;
+	cout << "*            1:按学号查询              *" << endl;
+	cout << "*            2:按姓名查询              *" << endl;
+	cout << "*            3:按性别查询              *" << endl;
+	cout << "*            4:按班级名称查询          *" << endl;
+	cout << "*            5:按平时成绩（作业）查询  *" << endl;
+	cout << "*            6:按平时成绩（实验）查询  *" << endl;
+	cout << "*            7:按平时成绩（报告）查询  *" << endl;
+	cout << "*            8:按考试成绩查询          *" << endl;
+	cout << "*                                      *" << endl;
+	cout << "****************************************" << endl;
 	int input = getinput(1,8);
 	switch (input) {
 	case 1:
@@ -130,7 +142,19 @@ int Manager::change()
 	if (!findWith(input, id, info.class_students)) {
 		return 0;
 	};
-	cout << "可修改的选项为：\n" << "1:学号\n2:姓名\n3:性别\n4:班级名称\n5:平时成绩（作业）\n6:平时成绩（实验）\n7:平时成绩（报告）\n8:考试成绩\n" << "输入数字进行选择：";
+	//cout << "可修改的选项为：\n" << "1:学号\n2:姓名\n3:性别\n4:班级名称\n5:平时成绩（作业）\n6:平时成绩（实验）\n7:平时成绩（报告）\n8:考试成绩\n" << "输入数字进行选择：";
+	cout << "**************可修改的选项**************" << endl;
+	cout << "*                                      *" << endl;
+	cout << "*           1:学号                     *" << endl;
+	cout << "*           2:姓名                     *" << endl;
+	cout << "*           3:性别                     *" << endl;
+	cout << "*           4:班级名称                 *" << endl;
+	cout << "*           5:平时成绩（作业）         *" << endl;
+	cout << "*           6:平时成绩（实验）         *" << endl;
+	cout << "*           7:平时成绩（报告）         *" << endl;
+	cout << "*           8:考试成绩                 *" << endl;
+	cout << "*                                      *" << endl;
+	cout << "****************************************" << endl;
 	while (true)
 	{
 		int input = getinput(0,8);
@@ -266,10 +290,12 @@ int Manager::remove()
 	if (input == 'r') {
 		for (int i = 0; i < info.class_students; i++) {
 			if (search_result[i] != 0) {
-				cout << (i - 1) << endl;
+				//测试用的
+				//cout << (i - 1) << endl;
 				clearAtIdx(i-1);
 				info.class_students -= 1;
-				cout << info.class_students << endl;
+				//测试用的
+				//cout << info.class_students << endl;
 			}
 		}
 	}
@@ -315,11 +341,11 @@ int Manager::storage()
 		out << endl;
 	}
 	out.close();
-	cout << "保存成功！";
+	cout << "保存成功！"<<endl;
 	return 0;
 }
 
-int Manager::analize()
+int Manager::analysize()
 {
 	cout << "最高分为：" << getMax(final_score) << endl;
 	cout << "最低分为：" << getMin(final_score) << endl;
