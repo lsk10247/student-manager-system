@@ -274,7 +274,7 @@ int Manager::append()
 	final_score[info.class_students]= 0.2 * normal_work_score[info.class_students] + 0.15 * normal_experiment_score[info.class_students] + 0.05 * normal_report_score[info.class_students] + 0.6 * test_score[info.class_students];
 	//选课学生数自动加一
 	info.class_students += 1;
-	cout << "输入完成，按5继续输入。";
+	cout << "输入完成"<<endl;
 
 	changed = true;
 
