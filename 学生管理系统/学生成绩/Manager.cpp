@@ -47,7 +47,7 @@ int Manager::insert()
 		cout << "输入授课教师：";
 		cin >> tmp;
 		info.class_teacher = tmp;
-		append();
+		cout << "按5输入学生信息。" << endl;
 		break;
 	default:
 		break;
