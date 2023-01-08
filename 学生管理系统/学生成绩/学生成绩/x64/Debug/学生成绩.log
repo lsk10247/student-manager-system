@@ -1,0 +1,7 @@
+﻿  Manager.cpp
+C:\Users\刘世坤\OneDrive\桌面\c++实习\学生成绩\Manager.cpp(215,194): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+C:\Users\刘世坤\OneDrive\桌面\c++实习\学生成绩\Manager.cpp(262,185): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+C:\Users\刘世坤\OneDrive\桌面\c++实习\学生成绩\Manager.cpp(502,115): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  学生成绩.cpp
+  正在生成代码...
+  学生成绩.vcxproj -> C:\Users\刘世坤\OneDrive\桌面\c++实习\学生成绩\x64\Debug\学生成绩.exe
