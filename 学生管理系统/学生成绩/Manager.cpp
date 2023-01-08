@@ -202,8 +202,8 @@ int Manager::change()
 		}
 			  final_score[search_result[0] - 1] = 0.2 * normal_work_score[search_result[0] - 1] + 0.15 * normal_experiment_score[search_result[0] - 1] + 0.05 * normal_report_score[search_result[0] - 1] + 0.6 * test_score[search_result[0] - 1];
 			  showInfo(search_result[0] - 1);
+			  changed = true;
 	}
-	changed = true;
 	return 0;
 }
 
@@ -291,17 +291,26 @@ int Manager::storage()
 	out << "Ñ¡¿ÎÈËÊý£º     " << info.class_students << endl;
 	out << head << endl;
 	for (int i = 0; i < 8; i++) {
+		out << setprecision(3) << setiosflags(ios::left) << setw(15) << setfill(' ');
 		out << columns[i] << "      ";
 	}
 	out << endl;
 	for (int i = 0; i < info.class_students; i++) {
+		out << setprecision(3) << setiosflags(ios::left) << setw(15) << setfill(' ');
 		out << id[i] << "      ";
+		out << setprecision(3) << setiosflags(ios::left) << setw(15) << setfill(' ');
 		out << name[i] << "     ";
+		out << setprecision(3) << setiosflags(ios::left) << setw(15) << setfill(' ');
 		out << gender[i] << "      ";
+		out << setprecision(3) << setiosflags(ios::left) << setw(15) << setfill(' ');
 		out << class_name[i] << "      ";
+		out << setprecision(3) << setiosflags(ios::left) << setw(15) << setfill(' ');
 		out << normal_report_score[i] << "      ";
+		out << setprecision(3) << setiosflags(ios::left) << setw(15) << setfill(' ');
 		out << normal_experiment_score[i] << "      ";
+		out << setprecision(3) << setiosflags(ios::left) << setw(10) << setfill(' ');
 		out << normal_report_score[i] << "      ";
+		out << setprecision(3) << setiosflags(ios::left) << setw(14) << setfill(' ');
 		out << test_score[i] << "      ";
 		out << endl;
 	}
