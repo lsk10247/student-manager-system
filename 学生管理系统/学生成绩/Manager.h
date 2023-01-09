@@ -28,6 +28,8 @@ private:
 	string PATH;
 	//自定义路径
 	string path;
+	//保存的文件名
+	string filename;
 	//最大学生数
 	static const int max_student_num = 100;
 	//成绩表的开头
@@ -37,6 +39,7 @@ private:
 	//栏目
 	string columns[COLUMN];
 
+	//有相同学号的学生
 	bool has_same_id;
 	//有无对数据进行修改
 	bool changed;
@@ -62,6 +65,20 @@ private:
 	//学生的最终成绩
 	float final_score[max_student_num];
 
+	//没用的
+	struct Student {
+		int id;
+		string name;
+		string gender;
+		string class_name;
+		float normal_work_score;
+		float normal_experiment_score;
+		float normal_report_score;
+		float test_score;
+		float final_score;
+	};
+	Student stdus[max_student_num];
+
 	//初始化函数
 	void init();
 
@@ -82,11 +99,15 @@ private:
 
 	//从特定位置加载数据
 	void loadDataBase(string path);
+	//读入数据
+	bool loaded;
 	//加载表头
 	bool readInfo();
 	//加载学生信息
 	bool readStudentInfo();
 
+	//打印学生成绩总体信息
+	void printInfo();
 	//获取min~max的输入，如果max为0，则无上限
 	int getinput(int min,int max);
 	//同上
@@ -105,13 +126,17 @@ private:
 	void getId(int*);
 	//展示下标为idx的学生信息
 	void showInfo(int idx);
+	//展示一串学生信息
+	void showList(int *arr,int size);
+	//删除学生
+	void deleteStudent();
 
 	//在大小为size的数组array中搜索，结果保存于search_result
 	template<typename T>
 	int findWith(T* array,int size);
 	//在大小为size的数组array中搜索data，结果保存于search_result
 	template<typename T>
-	int findWith(T data, T* array, int size);
+	int findWith(T data, T* array, int size,bool showinfo);
 
 	//获取最大值
 	float getMax(float[]);
@@ -133,5 +158,7 @@ private:
 
 	//对float数组进行排序，并将排序好的下标保存于int数组中
 	void rank(float[],int[]);
+	//对float数组进行排序，并将排序好的下标保存于int数组中
+	void rankInArray(float[], int[],int size);
 };
 

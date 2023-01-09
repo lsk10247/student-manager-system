@@ -6,17 +6,22 @@
 using namespace std;
 
 Manager::Manager() {
-	cout << "管理器创建成功!" << endl;
+	cout << "*************管理器创建成功*************" << endl;
 	init();
 }
 
 void Manager::init() {
 	PATH = "StudentScore.dat";
-	cout << "初始化成功!" << endl;
+	filename = "data.dat";
+	cout << "***************初始化成功***************" << endl;
 }
 
 int Manager::insert()
 {
+	if (loaded) {
+		cout << "不能重复读入数据"<<endl;
+		return 0;
+	}
 	//手动输入时使用
 	string tmp;
 	cout << "************开始读入学生成绩************" << endl;
@@ -109,28 +114,28 @@ int Manager::search()
 	switch (input) {
 	case 1:
 		findWith(id, info.class_students);
-		break;
+		return 1;
 	case 2:
 		findWith(name, info.class_students);
-		break;
+		return 2;
 	case 3:
 		findWith(gender, info.class_students);
-		break;
+		return 3;
 	case 4:
 		findWith(class_name, info.class_students);
-		break;
+		return 4;
 	case 5:
 		findWith(normal_work_score, info.class_students);
-		break;
+		return 5;
 	case 6:
 		findWith(normal_experiment_score, info.class_students);
-		break;
+		return 6;
 	case 7:
 		findWith(normal_report_score, info.class_students);
-		break;
+		return 7;
 	case 8:
 		findWith(test_score, info.class_students);
-		break;
+		return 8;
 	}
 	return 0;
 }
@@ -139,7 +144,7 @@ int Manager::change()
 {
 	cout << "请输入需要修改的学生的学号：";
 	int input = getinput(0,0);
-	if (!findWith(input, id, info.class_students)) {
+	if (!findWith(input, id, info.class_students,true)) {
 		return 0;
 	};
 	//cout << "可修改的选项为：\n" << "1:学号\n2:姓名\n3:性别\n4:班级名称\n5:平时成绩（作业）\n6:平时成绩（实验）\n7:平时成绩（报告）\n8:考试成绩\n" << "输入数字进行选择：";
@@ -284,7 +289,12 @@ int Manager::append()
 int Manager::remove()
 {
 	search();
-	cout << "输入r完成删除。";
+	deleteStudent();
+	return 0;
+}
+
+void Manager::deleteStudent() {
+	cout << "输入r完成删除,输入0取消删除。";
 	char input;
 	cin >> input;
 	if (input == 'r') {
@@ -292,15 +302,25 @@ int Manager::remove()
 			if (search_result[i] != 0) {
 				//测试用的
 				//cout << (i - 1) << endl;
+				
+				//删除下标为i-1的学生，
 				clearAtIdx(i-1);
+				//选课人数发生变化
 				info.class_students -= 1;
+
 				//测试用的
 				//cout << info.class_students << endl;
 			}
 		}
+		changed = true;
 	}
-	changed = true;
-	return 0;
+	else if (input == '0') {
+		return;
+	}
+	else {
+		cout << "请输入r或0。" << endl;
+		deleteStudent();
+	}
 }
 
 int Manager::storage()
@@ -309,7 +329,7 @@ int Manager::storage()
 		cout << "请先修改再保存。" << endl;
 		return 0;
 	}
-	out.open("data.dat", ios::out);
+	out.open(filename, ios::out);
 	out << "课程名称：     " << info.class_name << endl;
 	out << "课程编号：     " << info.class_number << endl;
 	out << "开课单位：     " << info.class_host << endl;
@@ -341,62 +361,162 @@ int Manager::storage()
 		out << endl;
 	}
 	out.close();
-	cout << "保存成功！"<<endl;
+	cout << "保存成功！" << endl;
 	return 0;
 }
 
-int Manager::analysize()
+void Manager::printInfo()
 {
 	cout << "最高分为：" << getMax(final_score) << endl;
 	cout << "最低分为：" << getMin(final_score) << endl;
 	cout << "平均分为：" << getAverage(final_score) << endl;
 	cout << "优秀率为：" << getGoodRate(final_score) << endl;
 	cout << "及格率为：" << getPassRate(final_score) << endl;
-	cout << "0~9人数：" << getFractionalSegment(final_score, 0, 9)<<endl;
-	cout << "10~19人数：" << getFractionalSegment(final_score, 10, 19)<<endl;
-	cout << "20~29人数：" << getFractionalSegment(final_score, 20, 29)<<endl;
-	cout << "30~39人数：" << getFractionalSegment(final_score, 30, 39)<<endl;
-	cout << "40~49人数：" << getFractionalSegment(final_score, 40, 49)<<endl;
-	cout << "50~59人数：" << getFractionalSegment(final_score, 50, 59)<<endl;
-	cout << "60~69人数：" << getFractionalSegment(final_score, 60, 69)<<endl;
-	cout << "70~79人数：" << getFractionalSegment(final_score, 70, 79)<<endl;
-	cout << "80~89人数：" << getFractionalSegment(final_score, 80, 89)<<endl;
-	cout << "90~100人数：" << getFractionalSegment(final_score, 90, 100)<<endl;
+	cout << "0~9人数：" << getFractionalSegment(final_score, 0, 9) << endl;
+	cout << "10~19人数：" << getFractionalSegment(final_score, 10, 19) << endl;
+	cout << "20~29人数：" << getFractionalSegment(final_score, 20, 29) << endl;
+	cout << "30~39人数：" << getFractionalSegment(final_score, 30, 39) << endl;
+	cout << "40~49人数：" << getFractionalSegment(final_score, 40, 49) << endl;
+	cout << "50~59人数：" << getFractionalSegment(final_score, 50, 59) << endl;
+	cout << "60~69人数：" << getFractionalSegment(final_score, 60, 69) << endl;
+	cout << "70~79人数：" << getFractionalSegment(final_score, 70, 79) << endl;
+	cout << "80~89人数：" << getFractionalSegment(final_score, 80, 89) << endl;
+	cout << "90~100人数：" << getFractionalSegment(final_score, 90, 100) << endl;
+}
 
-	//对学生进行排名
-	rank(final_score, studentRank);
-	cout << head << endl;
-	for (int i = 0; i < COLUMN; i++) {
-		cout << columns[i] << setw(8) << "    ";
-	}
-	cout << "最终成绩";
+int Manager::analysize()
+{
+	cout << "课程名称：" << info.class_name << endl;
+	cout << "课程编号：" << info.class_number << endl;
+	cout << "开课单位：" << info.class_host << endl;
+	cout << "授课教师：" << info.class_teacher << endl;
+	cout << "选课人数：" << info.class_students << endl;
 	cout << endl;
-	int j = 0;
-	while (j < info.class_students) {
-		cout << setprecision(3) << setiosflags(ios::left) << setw(10) << setfill(' ');
-		cout << id[studentRank[j]] << " ";
-		cout << setprecision(3) << setiosflags(ios::left) << setw(9) << setfill(' ');
-		cout << name[studentRank[j]] << "      ";
-		cout << setprecision(3) << setiosflags(ios::left) << setw(4) << setfill(' ');
-		cout << gender[studentRank[j]] << "      ";
-		cout << setprecision(3) << setiosflags(ios::left) << setw(15) << setfill(' ');
-		cout << class_name[studentRank[j]] << "      ";
-		cout << setprecision(3) << setiosflags(ios::left) << setw(15) << setfill(' ');
-		cout << normal_work_score[studentRank[j]] << "      ";
-		cout << setprecision(3) << setiosflags(ios::left) << setw(15) << setfill(' ');
-		cout << normal_experiment_score[studentRank[j]] << "      ";
-		cout << setprecision(3) << setiosflags(ios::left) << setw(18) << setfill(' ');
-		cout << normal_experiment_score[studentRank[j]] << "      ";
-		cout << setprecision(3) << setiosflags(ios::left) << setw(9) << setfill(' ');
-		cout << test_score[studentRank[j]] << "      ";
-		cout << final_score[studentRank[j]];
-		j++;
+	printInfo();
+	cout << "**************输入排名方式**************" << endl;
+	cout << "*                                      *" << endl;
+	cout << "*               0.所有                 *" << endl;
+	cout << "*               1.按性别               *" << endl;
+	cout << "*               2.按班级               *" << endl;
+	cout << "*                                      *" << endl;
+	cout << "****************************************" << endl;
+
+	int input = getinput(0, 2);
+	string instr;
+
+	switch (input) {
+	case 0:
+	{
+
+		//对学生进行排名
+		rank(final_score, studentRank);
+		cout << head << endl;
+		for (int i = 0; i < COLUMN; i++) {
+			cout << columns[i] << setw(8) << "    ";
+		}
+		cout << "最终成绩";
 		cout << endl;
+		int j = 0;
+		while (j < info.class_students) {
+			cout << setprecision(3) << setiosflags(ios::left) << setw(10) << setfill(' ');
+			cout << id[studentRank[j]] << " ";
+			cout << setprecision(3) << setiosflags(ios::left) << setw(9) << setfill(' ');
+			cout << name[studentRank[j]] << "      ";
+			cout << setprecision(3) << setiosflags(ios::left) << setw(4) << setfill(' ');
+			cout << gender[studentRank[j]] << "      ";
+			cout << setprecision(3) << setiosflags(ios::left) << setw(15) << setfill(' ');
+			cout << class_name[studentRank[j]] << "      ";
+			cout << setprecision(3) << setiosflags(ios::left) << setw(15) << setfill(' ');
+			cout << normal_work_score[studentRank[j]] << "      ";
+			cout << setprecision(3) << setiosflags(ios::left) << setw(15) << setfill(' ');
+			cout << normal_experiment_score[studentRank[j]] << "      ";
+			cout << setprecision(3) << setiosflags(ios::left) << setw(18) << setfill(' ');
+			cout << normal_experiment_score[studentRank[j]] << "      ";
+			cout << setprecision(3) << setiosflags(ios::left) << setw(9) << setfill(' ');
+			cout << test_score[studentRank[j]] << "      ";
+			cout << final_score[studentRank[j]];
+			j++;
+			cout << endl;
+		}
+		break;
 	}
+	case 1: 
+	{
+		cout << "****************选择性别****************" << endl;
+		cout << "*                                      *" << endl;
+		cout << "*                 0.男                 *" << endl;
+		cout << "*                 1.女                 *" << endl;
+		cout << "*                                      *" << endl;
+		cout << "****************************************" << endl;
+		input = getinput(0, 1);
+		string sex;
+		if (input) {
+			//按女排序
+			sex = "女";
+			int size = findWith(sex, gender, info.class_students,false);
+			rankInArray(final_score, search_result, size);
+			showList(search_result,size);
+			//for (int i = 0; i < size; i++) {
+			//	showInfo(search_result[i]-1);
+			//}
+		}
+		else {
+			//按男排序
+			sex = "男";
+			int size = findWith(sex, gender, info.class_students,false);
+			rankInArray(final_score, search_result, size);
+			showList(search_result,size);
+			//for (int i = 0; i < size; i++) {
+			//	showInfo(search_result[i]-1);
+			//}
+		}
+		break;
+	}
+	case 2:
+	{
+		cout << "请输入班级：";
+		instr = getstrinput();
+		int size = findWith(instr, class_name, info.class_students,false);
+		rankInArray(final_score, search_result, size);
+		showList(search_result, size);
+		//for (int i = 0; i < size; i++) {
+		//	showInfo(search_result[i]-1);
+		//}
+		break;
+	}
+	}
+
+
 
 	//若为true,则可以保存
 	analysized = true;
 
+	//cout << "输入1进一步分析,输入其他键退出。";
+	//char input;
+	//cin >> input;
+	//switch (input) {
+	//case '1':
+	//	int tmp = search();
+	//	switch (tmp)
+	//	{
+	//	case 1:
+	//		cout << "学号不能排名。";
+	//		break;
+	//	case 2:
+	//		cout << "名字不能排名。";
+	//		break;
+	//	case 3:
+	//		rank(final_score, studentRank);
+	//		break;
+	//	case 4:
+	//		break;
+	//	default:
+	//		break;
+	//	}
+	//	rank();
+	//	break;
+	//default:break;
+	//}
 	return 0;
 }
 
@@ -455,12 +575,13 @@ int Manager::save()
 		out << endl;
 	}
 	out.close();
-	cout << "保存成功！";
+	cout << "保存成功！"<<endl;
 	return 0;
 }
 
 void Manager::loadDataBase(string path)
 {
+
 	in.open(path, ios::in);
 
 	readInfo();
@@ -471,6 +592,7 @@ void Manager::loadDataBase(string path)
 		has_same_id = true;
 	}
 	else {
+		loaded = true;
 		cout << "学生信息正常。";
 		cout << "读入成功！" << endl;
 	}
@@ -510,8 +632,19 @@ bool Manager::readStudentInfo() {
 		in >> normal_experiment_score[j];
 		in >> test_score[j];
 
+		//in >> stdus[j].id;
+		//in >> stdus[j].name;
+		//in >> stdus[j].gender;
+		//in >> stdus[j].class_name;
+		//in >> stdus[j].normal_work_score;
+		//in >> stdus[j].normal_experiment_score;
+		//in >> stdus[j].normal_report_score;
+		//in >> stdus[j].test_score;
+
 		//计算总成绩
 		final_score[j] = 0.2 * normal_work_score[j] + 0.15 * normal_experiment_score[j] + 0.05 * normal_report_score[j] + 0.6 * test_score[j];
+		stdus[j].final_score = 0.2 * normal_work_score[j] + 0.15 * normal_experiment_score[j] + 0.05 * normal_report_score[j] + 0.6 * test_score[j];
+
 		//检查负分或大于100分的
 		if (normal_work_score[j] < 0 || normal_report_score[j] < 0 || normal_experiment_score[j] < 0 || test_score[j] < 0 || normal_work_score[j] > 100 || normal_report_score[j] > 100 || normal_experiment_score[j] > 100 || test_score[j] > 100) {
 			cout << "有分数为负或大于100的情况，已为你删除该学生。" << endl;
@@ -646,39 +779,80 @@ void Manager::showInfo(int idx)
 	cout << "最终成绩：" << final_score[idx] << endl;
 }
 
+void Manager::showList(int* arr,int size)
+{
+
+
+	cout << head << endl;
+	for (int i = 0; i < COLUMN; i++) {
+		cout << columns[i] << setw(8) << "    ";
+	}
+	cout << "最终成绩";
+	cout << endl;
+	int j = 0;
+	while (j < size) {
+		cout << setprecision(3) << setiosflags(ios::left) << setw(10) << setfill(' ');
+		cout << id[arr[j]-1] << " ";
+		cout << setprecision(3) << setiosflags(ios::left) << setw(9) << setfill(' ');
+		cout << name[arr[j] - 1] << "      ";
+		cout << setprecision(3) << setiosflags(ios::left) << setw(4) << setfill(' ');
+		cout << gender[arr[j] - 1] << "      ";
+		cout << setprecision(3) << setiosflags(ios::left) << setw(15) << setfill(' ');
+		cout << class_name[arr[j] - 1] << "      ";
+		cout << setprecision(3) << setiosflags(ios::left) << setw(15) << setfill(' ');
+		cout << normal_work_score[arr[j] - 1] << "      ";
+		cout << setprecision(3) << setiosflags(ios::left) << setw(15) << setfill(' ');
+		cout << normal_experiment_score[arr[j] - 1] << "      ";
+		cout << setprecision(3) << setiosflags(ios::left) << setw(18) << setfill(' ');
+		cout << normal_experiment_score[arr[j] - 1] << "      ";
+		cout << setprecision(3) << setiosflags(ios::left) << setw(9) << setfill(' ');
+		cout << test_score[arr[j] - 1] << "      ";
+		cout << final_score[arr[j] - 1];
+		j++;
+		cout << endl;
+	}
+}
+
 template<typename T>
 int Manager::findWith(T* array, int size) {
+	int num = 0;
 	cout << "请输入查询的数据：";
 	T msg;
 	cin >> msg;
 	clearResult();
 	for (int i = 0; i < size; i++) {
 		if (array[i] == msg) {
-			showInfo(i);
+			num++;
 			append(i + 1);
 		}
 	}
 	if (search_result[0] == 0) {
 		cout << "未查到相关学生。" << endl;
+		return 0;
 	}
-	return 1;
+	showList(search_result,num);
+	return num;
 }
 
 template<typename T>
-int Manager::findWith(T data, T* array, int size)
+int Manager::findWith(T data, T* array, int size,bool showinfo)
 {
+	int num = 0;
 	clearResult();
 	for (int i = 0; i < size; i++) {
 		if (array[i] == data) {
-			showInfo(i);
 			append(i + 1);
+			num++;
 		}
 	}
 	if (search_result[0] == 0) {
 		cout << "未查到相关学生,请重新输入！" << endl;
 		return 0;
 	}
-	return 1;
+	if (showinfo) {
+		showList(search_result, num);
+	}
+	return num;
 }
 
 float Manager::getMax(float arr[]){
@@ -725,6 +899,20 @@ void Manager::rank(float arr[],int rank[]) {
 	for (int i = 0; i < info.class_students; i++) {
 		for (int j = i + 1; j < info.class_students; j++) {
 			if (arr[rank[j]] > arr[rank[i]]) {
+				max = rank[j];
+				rank[j] = rank[i];
+				rank[i] = max;
+			}
+		}
+	}
+}
+
+void Manager::rankInArray(float arr[], int rank[],int size) {
+	int max = 0;
+
+	for (int i = 0; i < size; i++) {
+		for (int j = i + 1; j < size; j++) {
+			if (arr[rank[j]-1] > arr[rank[i]-1]) {
 				max = rank[j];
 				rank[j] = rank[i];
 				rank[i] = max;

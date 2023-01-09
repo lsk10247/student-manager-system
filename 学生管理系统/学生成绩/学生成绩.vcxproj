@@ -129,7 +129,7 @@
   <ItemGroup>
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Student.cpp" />
-    <ClCompile Include="学生成绩.cpp" />
+    <ClCompile Include="StudentManageSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Manager.h" />
