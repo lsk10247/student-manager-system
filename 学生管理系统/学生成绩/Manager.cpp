@@ -912,7 +912,7 @@ void Manager::rankInArray(float arr[], int rank[],int size) {
 
 	for (int i = 0; i < size; i++) {
 		for (int j = i + 1; j < size; j++) {
-			if (arr[rank[j]-1] > arr[rank[i]-1]) {
+			if (arr[rank[j]-1] < arr[rank[i]-1]) {
 				max = rank[j];
 				rank[j] = rank[i];
 				rank[i] = max;
